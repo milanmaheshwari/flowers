@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flower Toggle Animation</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="rive-canvas" width="600" height="600" style="background-color: #111111;"></canvas>
+
+  <script type="module">
+    import Rive from 'https://cdn.jsdelivr.net/npm/@rive-app/web@2.0.0/+esm';
+
+    const rive = new Rive({
+      src: 'flowers.riv',
+      canvas: document.getElementById('rive-canvas'),
+      stateMachines: ['FlowerMachine'],
+      autoplay: true,
+      onLoad: () => {
+        const inputs = rive.stateMachineInputs('FlowerMachine');
+        const isOpenInput = inputs.find(input => input.name === 'isOpen');
+
+        document.getElementById('rive-canvas').addEventListener('click', () => {
+          if (isOpenInput && typeof isOpenInput.value === 'boolean') {
+            isOpenInput.value = !isOpenInput.value; // Toggle the isOpen state
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
